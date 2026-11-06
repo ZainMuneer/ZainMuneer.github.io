@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zain Muneer // Futuristic Creative Developer</title>
+  <!-- Google Fonts & FontAwesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Plus+Jakarta+Sans:wght@300;400;600;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <style>
+    :root {
+      --bg: #030712;
+      --card-bg: rgba(15, 23, 42, 0.65);
+      --border-glow: rgba(56, 189, 248, 0.25);
+      --neon-blue: #38bdf8;
+      --neon-purple: #c084fc;
+      --neon-cyan: #22d3ee;
+      --neon-green: #4ade80;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      overflow-x: hidden;
+      cursor: default;
+    }
+
+    /* Custom Cursor */
+    .cursor-dot, .cursor-glow {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      border-radius: 50%;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: opacity 0.3s;
+    }
+    .cursor-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--neon-cyan);
+      box-shadow: 0 0 10px var(--neon-cyan);
+    }
+    .cursor-glow {
+      width: 40px;
+      height: 40px;
+      border: 1.5px solid var(--neon-blue);
+      box-shadow: 0 0 25px rgba(56, 189, 248, 0.4);
+      transition: width 0.2s, height 0.2s, background-color 0.2s;
+    }
+
+    /* Background Canvas */
+    #bg-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+      background: radial-gradient(circle at 50% 50%, #0c1222 0%, #030712 100%);
+    }
+
+    /* Sound Control & HUD */
+    .hud-bar {
+      position: fixed;
+      top: 20px;
+      right: 25px;
+      display: flex;
+      gap: 12px;
+      z-index: 100;
+    }
+    .hud-btn {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid var(--border-glow);
+      backdrop-filter: blur(10px);
+      color: var(--neon-cyan);
+      padding: 10px 16px;
+      border-radius: 30px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+    }
+    .hud-btn:hover {
+      background: var(--neon-cyan);
+      color: #030712;
+      box-shadow: 0 0 18px var(--neon-cyan);
+      transform: translateY(-2px);
+    }
+
+    /* Navbar */
+    nav {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--border-glow);
+      padding: 10px 30px;
+      border-radius: 40px;
+      display: flex;
+      gap: 25px;
+      z-index: 90;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+    nav a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      transition: color 0.3s, text-shadow 0.3s;
+    }
+    nav a:hover {
+      color: var(--neon-blue);
+      text-shadow: 0 0 10px var(--neon-blue);
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 100px 20px 40px;
+      position: relative;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      border-radius: 30px;
+      border: 1px solid rgba(74, 222, 128, 0.4);
+      background: rgba(74, 222, 128, 0.08);
+      color: var(--neon-green);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      margin-bottom: 25px;
+      animation: pulse 2.5s infinite;
+    }
+    .hero-badge::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      background: var(--neon-green);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--neon-green);
+    }
+
+    .hero-name {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(2.8rem, 8vw, 5.5rem);
+      font-weight: 900;
+      letter-spacing: 2px;
+      background: linear-gradient(135deg, #ffffff 20%, var(--neon-blue) 60%, var(--neon-purple) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 15px;
+      text-shadow: 0 0 40px rgba(56, 189, 248, 0.3);
+    }
+
+    .hero-typing {
+      font-size: clamp(1.1rem, 3vw, 1.6rem);
+      color: var(--neon-cyan);
+      font-family: 'JetBrains Mono', monospace;
+      margin-bottom: 30px;
+      min-height: 2em;
+    }
+
+    .hero-desc {
+      max-width: 650px;
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      line-height: 1.7;
+      margin-bottom: 40px;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .btn {
+      padding: 14px 34px;
+      border-radius: 30px;
+      font-size: 1rem;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+      color: #030712;
+      border: none;
+      box-shadow: 0 0 25px rgba(56, 189, 248, 0.4);
+    }
+    .btn-primary:hover {
+      box-shadow: 0 0 45px rgba(192, 132, 252, 0.7);
+      transform: translateY(-3px) scale(1.02);
+    }
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border-glow);
+      backdrop-filter: blur(8px);
+    }
+    .btn-outline:hover {
+      border-color: var(--neon-cyan);
+      background: rgba(34, 211, 238, 0.1);
+      box-shadow: 0 0 25px rgba(34, 211, 238, 0.3);
+      transform: translateY(-3px);
+    }
+
+    /* Section Global */
+    section {
+      padding: 100px 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .section-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2.2rem;
+      text-align: center;
+      margin-bottom: 12px;
+      letter-spacing: 1px;
+    }
+    .section-title span {
+      color: var(--neon-blue);
+      text-shadow: 0 0 15px rgba(56, 189, 248, 0.5);
+    }
+    .section-sub {
+      text-align: center;
+      color: var(--text-muted);
+      margin-bottom: 60px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.95rem;
+    }
+
+    /* 3D Tilt Cards Grid */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 30px;
+      perspective: 1000px;
+    }
+    .tilt-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-glow);
+      border-radius: 20px;
+      padding: 30px;
+      backdrop-filter: blur(12px);
+      transition: transform 0.15s ease-out, border-color 0.3s, box-shadow 0.3s;
+      transform-style: preserve-3d;
+      position: relative;
+      overflow: hidden;
+    }
+    .tilt-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.12) 0%, transparent 60%);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .tilt-card:hover::before {
+      opacity: 1;
+    }
+    .tilt-card:hover {
+      border-color: var(--neon-cyan);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8), 0 0 30px rgba(34, 211, 238, 0.2);
+    }
+
+    /* Project Cards */
+    .project-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .project-icon {
+      font-size: 2rem;
+      color: var(--neon-cyan);
+    }
+    .project-links a {
+      color: var(--text-muted);
+      font-size: 1.2rem;
+      margin-left: 12px;
+      transition: color 0.3s;
+    }
+    .project-links a:hover {
+      color: var(--neon-blue);
+    }
+    .project-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: #fff;
+    }
+    .project-desc {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+    .tech-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .tech-pill {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      padding: 4px 10px;
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      color: var(--neon-blue);
+      border-radius: 12px;
+    }
+
+    /* Skills Grid */
+    .skill-card {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    .skill-top {
+      display: flex;
+      justify-content: space-between;
+      font-weight: 700;
+    }
+    .progress-bar-bg {
+      width: 100%;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--neon-cyan), var(--neon-purple));
+      border-radius: 10px;
+      box-shadow: 0 0 10px var(--neon-cyan);
+      transition: width 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Interactive Terminal Modal */
+    .terminal-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(12px);
+      z-index: 10000;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .terminal-window {
+      width: 100%;
+      max-width: 650px;
+      background: #090d16;
+      border: 1px solid var(--border-glow);
+      border-radius: 14px;
+      box-shadow: 0 0 50px rgba(56, 189, 248, 0.3);
+      overflow: hidden;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .terminal-bar {
+      background: #0f172a;
+      padding: 10px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .term-dots {
+      display: flex;
+      gap: 8px;
+    }
+    .term-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+    .term-close { background: #ef4444; cursor: pointer; }
+    .term-min { background: #f59e0b; }
+    .term-max { background: #10b981; }
+    .terminal-body {
+      padding: 20px;
+      height: 340px;
+      overflow-y: auto;
+      color: #38bdf8;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+    .terminal-input-row {
+      display: flex;
+      align-items: center;
+      padding: 10px 20px;
+      background: #060911;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .terminal-prompt {
+      color: var(--neon-green);
+      margin-right: 10px;
+    }
+    .terminal-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #fff;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.95rem;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 40px 20px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.05); opacity: 0.85; }
+    }
+
+    @media (max-width: 768px) {
+      nav { display: none; }
+      .hud-bar { top: 12px; right: 12px; }
+      .cursor-dot, .cursor-glow { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Custom Cursor -->
+  <div class="cursor-dot" id="cursor-dot"></div>
+  <div class="cursor-glow" id="cursor-glow"></div>
+
+  <!-- Background Interactive Particles -->
+  <canvas id="bg-canvas"></canvas>
+
+  <!-- Top HUD Buttons -->
+  <div class="hud-bar">
+    <button class="hud-btn" id="sound-btn" title="Toggle Futuristic Audio">
+      <i class="fa-solid fa-volume-high"></i> <span id="sound-status">SFX: ON</span>
+    </button>
+    <button class="hud-btn" id="terminal-trigger-btn" title="Open Interactive Terminal (Ctrl + K)">
+      <i class="fa-solid fa-terminal"></i> <span>CLI</span>
+    </button>
+  </div>
+
+  <!-- Floating Nav -->
+  <nav>
+    <a href="#hero">SYSTEM</a>
+    <a href="#projects">PROJECTS</a>
+    <a href="#skills">MATRIX</a>
+    <a href="#contact">TRANSMIT</a>
+  </nav>
+
+  <!-- Hero Section -->
+  <div class="hero" id="hero">
+    <div class="hero-badge">
+      STATUS: AVAILABLE FOR REVOLUTIONARY PROJECTS
+    </div>
+    <h1 class="hero-name">ZAIN MUNEER</h1>
+    <div class="hero-typing" id="typing-text"></div>
+    <p class="hero-desc">
+      Architecting high-performance web solutions, futuristic UI/UX engineering, and hyper-scalable software experiences. Living on the bleeding edge of modern digital craft.
+    </p>
+    <div class="btn-group">
+      <a href="#projects" class="btn btn-primary sound-hover">
+        <i class="fa-solid fa-rocket"></i> EXPLORE CREATIONS
+      </a>
+      <a href="#contact" class="btn btn-outline sound-hover">
+        <i class="fa-solid fa-paper-plane"></i> INITIATE CONTACT
+      </a>
+    </div>
+  </div>
+
+  <!-- Projects Section -->
+  <section id="projects">
+    <h2 class="section-title">FEATURED <span>CREATIONS</span></h2>
+    <p class="section-sub">// CUTTING-EDGE PRODUCTION DEPLOYMENTS</p>
+
+    <div class="grid">
+      <!-- Project 1 -->
+      <div class="tilt-card">
+        <div class="project-header">
+          <i class="fa-solid fa-brain project-icon"></i>
+          <div class="project-links">
+            <a href="#" class="sound-hover"><i class="fa-brands fa-github"></i></a>
+            <a href="#" class="sound-hover"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+          </div>
+        </div>
+        <h3 class="project-title">Neural Engine Dashboard</h3>
+        <p class="project-desc">Real-time AI telemetry visualizer with WebGL matrix rendering, sub-millisecond data sync, and neural network weight visualization.</p>
+        <div class="tech-stack">
+          <span class="tech-pill">WebGL</span>
+          <span class="tech-pill">TypeScript</span>
+          <span class="tech-pill">Node.js</span>
+          <span class="tech-pill">Three.js</span>
+        </div>
+      </div>
+
+      <!-- Project 2 -->
+      <div class="tilt-card">
+        <div class="project-header">
+          <i class="fa-solid fa-shield-halved project-icon"></i>
+          <div class="project-links">
+            <a href="#" class="sound-hover"><i class="fa-brands fa-github"></i></a>
+            <a href="#" class="sound-hover"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+          </div>
+        </div>
+        <h3 class="project-title">CyberShield Protocol</h3>
+        <p class="project-desc">Decentralized asset authentication and encrypted real-time identity engine with biometric zero-knowledge proofs.</p>
+        <div class="tech-stack">
+          <span class="tech-pill">Rust</span>
+          <span class="tech-pill">WebSockets</span>
+          <span class="tech-pill">Tailwind</span>
+          <span class="tech-pill">Cryptography</span>
+        </div>
+      </div>
+
+      <!-- Project 3 -->
+      <div class="tilt-card">
+        <div class="project-header">
+          <i class="fa-solid fa-bolt project-icon"></i>
+          <div class="project-links">
+            <a href="#" class="sound-hover"><i class="fa-brands fa-github"></i></a>
+            <a href="#" class="sound-hover"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+          </div>
+        </div>
+        <h3 class="project-title">Quantum Commerce Engine</h3>
+        <p class="project-desc">Next-generation headless e-commerce architecture delivering sub-50ms page loads and 3D product customization.</p>
+        <div class="tech-stack">
+          <span class="tech-pill">Next.js</span>
+          <span class="tech-pill">GraphQL</span>
+          <span class="tech-pill">PostgreSQL</span>
+          <span class="tech-pill">Stripe API</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills Matrix -->
+  <section id="skills">
+    <h2 class="section-title">TECH <span>MATRIX</span></h2>
+    <p class="section-sub">// PROFICIENCY & ARSENAL CALIBRATION</p>
+
+    <div class="grid">
+      <div class="tilt-card skill-card">
+        <div class="skill-top">
+          <span><i class="fa-brands fa-react" style="color:var(--neon-blue);"></i> Modern Frontend & React</span>
+          <span>95%</span>
+        </div>
+        <div class="progress-bar-bg"><div class="progress-fill" style="width: 95%;"></div></div>
+      </div>
+
+      <div class="tilt-card skill-card">
+        <div class="skill-top">
+          <span><i class="fa-brands fa-node-js" style="color:var(--neon-green);"></i> Full Stack Architecture</span>
+          <span>90%</span>
+        </div>
+        <div class="progress-bar-bg"><div class="progress-fill" style="width: 90%;"></div></div>
+      </div>
+
+      <div class="tilt-card skill-card">
+        <div class="skill-top">
+          <span><i class="fa-solid fa-wand-magic-sparkles" style="color:var(--neon-purple);"></i> Creative Motion & 3D Web</span>
+          <span>88%</span>
+        </div>
+        <div class="progress-bar-bg"><div class="progress-fill" style="width: 88%;"></div></div>
+      </div>
+
+      <div class="tilt-card skill-card">
+        <div class="skill-top">
+          <span><i class="fa-solid fa-database" style="color:var(--neon-cyan);"></i> Cloud & Database Optimization</span>
+          <span>85%</span>
+        </div>
+        <div class="progress-bar-bg"><div class="progress-fill" style="width: 85%;"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" style="text-align: center;">
+    <h2 class="section-title">TRANSMIT <span>A SIGNAL</span></h2>
+    <p class="section-sub">// READY TO BUILD SOMETHING EXTRAORDINARY?</p>
+    
+    <div class="tilt-card" style="max-width: 600px; margin: 0 auto; padding: 40px;">
+      <i class="fa-solid fa-satellite-dish" style="font-size: 3rem; color: var(--neon-cyan); margin-bottom: 20px;"></i>
+      <h3 style="font-size: 1.5rem; margin-bottom: 15px;">Establish Direct Connection</h3>
+      <p style="color: var(--text-muted); margin-bottom: 30px;">
+        Feel free to reach out for collaborations, architecture inquiries, or full-time opportunities.
+      </p>
+      <a href="mailto:contact@zainmuneer.dev" class="btn btn-primary sound-hover" style="width: 100%; justify-content: center;">
+        <i class="fa-solid fa-envelope"></i> SEND DISPATCH
+      </a>
+    </div>
+  </section>
+
+  <!-- Interactive Terminal Drawer -->
+  <div class="terminal-modal" id="terminal-modal">
+    <div class="terminal-window">
+      <div class="terminal-bar">
+        <div class="term-dots">
+          <div class="term-dot term-close" id="term-close-btn"></div>
+          <div class="term-dot term-min"></div>
+          <div class="term-dot term-max"></div>
+        </div>
+        <div style="font-size: 0.8rem; color: #64748b;">zain@core-system: ~ (bash)</div>
+      </div>
+      <div class="terminal-body" id="terminal-output">
+        <div>> Core System Initialized v3.8.4</div>
+        <div>> Welcome to Zain Muneer's Interactive Terminal.</div>
+        <div>> Type <span style="color:#f59e0b;">'help'</span> to view available system commands.</div>
+        <br>
+      </div>
+      <div class="terminal-input-row">
+        <span class="terminal-prompt">guest@zain:~$</span>
+        <input type="text" class="terminal-input" id="terminal-input" autocomplete="off" placeholder="type command here..." />
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2026 Zain Muneer // Designed with Next-Gen Interactive Web Architecture</p>
+  </footer>
+
+  <script>
+    // --- 1. Synthesizer Sound Engine (Web Audio API) ---
+    let soundEnabled = true;
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    let audioCtx = null;
+
+    function playSynth(freq = 440, type = 'sine', duration = 0.08) {
+      if (!soundEnabled) return;
+      try {
+        if (!audioCtx) audioCtx = new AudioContext();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
+      } catch (e) {}
+    }
+
+    document.querySelectorAll('.sound-hover, .hud-btn, a, button').forEach(el => {
+      el.addEventListener('mouseenter', () => playSynth(600, 'triangle', 0.05));
+      el.addEventListener('click', () => playSynth(900, 'sine', 0.1));
+    });
+
+    const soundBtn = document.getElementById('sound-btn');
+    const soundStatus = document.getElementById('sound-status');
+    soundBtn.addEventListener('click', () => {
+      soundEnabled = !soundEnabled;
+      soundStatus.textContent = soundEnabled ? 'SFX: ON' : 'SFX: OFF';
+      soundBtn.querySelector('i').className = soundEnabled ? 'fa-solid fa-volume-high' : 'fa-solid fa-volume-xmark';
+    });
+
+    // --- 2. Custom Cursor Follower ---
+    const dot = document.getElementById('cursor-dot');
+    const glow = document.getElementById('cursor-glow');
+    window.addEventListener('mousemove', (e) => {
+      dot.style.left = `${e.clientX}px`;
+      dot.style.top = `${e.clientY}px`;
+      glow.animate({ left: `${e.clientX}px`, top: `${e.clientY}px` }, { duration: 250, fill: "forwards" });
+    });
+
+    // --- 3. Dynamic Interactive Canvas Particles ---
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+    let width, height, particles = [];
+    let mouse = { x: null, y: null };
+
+    function resizeCanvas() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    window.addEventListener('mousemove', (e) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+    });
+
+    class Particle {
+      constructor() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        this.vx = (Math.random() - 0.5) * 0.9;
+        this.vy = (Math.random() - 0.5) * 0.9;
+        this.radius = Math.random() * 2 + 1;
+      }
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        if (this.x < 0 || this.x > width) this.vx *= -1;
+        if (this.y < 0 || this.y > height) this.vy *= -1;
+
+        if (mouse.x && mouse.y) {
+          const dx = mouse.x - this.x;
+          const dy = mouse.y - this.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 120) {
+            this.x -= (dx / dist) * 2;
+            this.y -= (dy / dist) * 2;
+          }
+        }
+      }
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = '#38bdf8';
+        ctx.shadowBlur = 10;
+        ctx.shadowColor = '#38bdf8';
+        ctx.fill();
+      }
+    }
+
+    for (let i = 0; i < 70; i++) particles.push(new Particle());
+
+    function animateParticles() {
+      ctx.clearRect(0, 0, width, height);
+      for (let i = 0; i < particles.length; i++) {
+        particles[i].update();
+        particles[i].draw();
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 130) {
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.strokeStyle = `rgba(56, 189, 248, ${0.25 - dist / 520})`;
+            ctx.lineWidth = 0.8;
+            ctx.stroke();
+          }
+        }
+      }
+      requestAnimationFrame(animateParticles);
+    }
+    animateParticles();
+
+    // --- 4. 3D Tilt Card Physics ---
+    document.querySelectorAll('.tilt-card').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = ((y - centerY) / centerY) * -12;
+        const rotateY = ((x - centerX) / centerX) * 12;
+        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+      });
+    });
+
+    // --- 5. Typing Effect ---
+    const roles = ["CREATIVE TECHNOLOGIST", "FULL STACK ARCHITECT", "NEXT-GEN UI/UX ENGINEER", "CYBER EXPERIENCES"];
+    let roleIndex = 0, charIndex = 0, isDeleting = false;
+    const typingEl = document.getElementById('typing-text');
+
+    function typeLoop() {
+      const currentRole = roles[roleIndex];
+      if (isDeleting) {
+        typingEl.textContent = '> ' + currentRole.substring(0, charIndex - 1);
+        charIndex--;
+      } else {
+        typingEl.textContent = '> ' + currentRole.substring(0, charIndex + 1);
+        charIndex++;
+      }
+
+      let speed = isDeleting ? 40 : 80;
+      if (!isDeleting && charIndex === currentRole.length) {
+        speed = 1800;
+        isDeleting = true;
+      } else if (isDeleting && charIndex === 0) {
+        isDeleting = false;
+        roleIndex = (roleIndex + 1) % roles.length;
+        speed = 400;
+      }
+      setTimeout(typeLoop, speed);
+    }
+    typeLoop();
+
+    // --- 6. Futuristic Terminal System ---
+    const termModal = document.getElementById('terminal-modal');
+    const termInput = document.getElementById('terminal-input');
+    const termOutput = document.getElementById('terminal-output');
+    const termTrigger = document.getElementById('terminal-trigger-btn');
+    const termClose = document.getElementById('term-close-btn');
+
+    function toggleTerminal() {
+      const isOpen = termModal.style.display === 'flex';
+      termModal.style.display = isOpen ? 'none' : 'flex';
+      if (!isOpen) termInput.focus();
+    }
+
+    termTrigger.addEventListener('click', toggleTerminal);
+    termClose.addEventListener('click', toggleTerminal);
+    window.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        toggleTerminal();
+      }
+    });
+
+    termInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        const cmd = termInput.value.trim().toLowerCase();
+        termInput.value = '';
+        termOutput.innerHTML += `<div><span style="color:#4ade80;">guest@zain:~$</span> ${cmd}</div>`;
+
+        let response = '';
+        switch (cmd) {
+          case 'help':
+            response = 'Available commands: <span style="color:#22d3ee;">about, skills, projects, contact, clear, matrix</span>';
+            break;
+          case 'about':
+            response = 'Zain Muneer - Creative Technologist & Full Stack Web Architect pushing the bounds of modern digital craft.';
+            break;
+          case 'skills':
+            response = 'Core Stack: React, Next.js, Node.js, WebGL, TypeScript, Three.js, Python, Cloud Infra.';
+            break;
+          case 'projects':
+            response = '1. Neural Engine Dashboard | 2. CyberShield Protocol | 3. Quantum Commerce Engine';
+            break;
+          case 'contact':
+            response = 'Transmitting email link: contact@zainmuneer.dev';
+            break;
+          case 'matrix':
+            response = '01011010 01000001 01001001 01001110 00100000 01010011 01011001 01010011 01010100 01000101 01001101';
+            break;
+          case 'clear':
+            termOutput.innerHTML = '';
+            return;
+          default:
+            response = `command not recognized: '${cmd}'. Type 'help' for instructions.`;
+        }
+        termOutput.innerHTML += `<div style="color:#94a3b8; margin-bottom: 8px;">${response}</div>`;
+        termOutput.scrollTop = termOutput.scrollHeight;
+        playSynth(450, 'square', 0.06);
+      }
+    });
+  </script>
+</body>
+</html>
