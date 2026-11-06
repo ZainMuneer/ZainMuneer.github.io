@@ -3,28 +3,29 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Zain Muneer — 3D Web Developer & Engineer</title>
+  <title>Zain Muneer — Web Developer & Software Engineer</title>
   
   <!-- Fonts & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
-  <!-- Three.js (3D Engine) -->
+  <!-- Three.js (3D Graphics Engine) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
   <style>
     :root {
       --bg: #030712;
-      --card-bg: rgba(15, 23, 42, 0.6);
+      --card-bg: rgba(15, 23, 42, 0.65);
       --card-border: rgba(255, 255, 255, 0.08);
-      --card-hover: rgba(56, 189, 248, 0.4);
+      --card-hover: rgba(56, 189, 248, 0.35);
       --text: #f8fafc;
       --text-muted: #94a3b8;
       --accent: #38bdf8;
       --accent-purple: #a855f7;
       --whatsapp: #25d366;
+      --linkedin: #0a66c2;
     }
 
     * {
@@ -42,7 +43,7 @@
       line-height: 1.6;
     }
 
-    /* 3D Canvas Background */
+    /* 3D Background Canvas */
     #three-canvas {
       position: fixed;
       top: 0;
@@ -59,12 +60,12 @@
     }
 
     .container {
-      max-width: 1150px;
+      max-width: 1140px;
       margin: 0 auto;
       padding: 0 24px;
     }
 
-    /* Glass Navbar */
+    /* Navbar */
     header {
       position: sticky;
       top: 15px;
@@ -75,7 +76,7 @@
     .nav-box {
       max-width: 1100px;
       margin: 0 auto;
-      background: rgba(15, 23, 42, 0.7);
+      background: rgba(15, 23, 42, 0.75);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       border: 1px solid var(--card-border);
@@ -89,7 +90,7 @@
 
     .logo {
       font-weight: 800;
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       color: #fff;
       text-decoration: none;
       display: flex;
@@ -98,28 +99,28 @@
       letter-spacing: -0.02em;
     }
 
-    .logo-cube {
-      width: 30px;
-      height: 30px;
+    .logo-badge {
+      width: 32px;
+      height: 32px;
       background: linear-gradient(135deg, var(--accent), var(--accent-purple));
       border-radius: 8px;
       display: grid;
       place-items: center;
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       font-weight: 900;
       color: #030712;
-      box-shadow: 0 0 15px rgba(56, 189, 248, 0.5);
+      box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
     }
 
     nav {
       display: flex;
-      gap: 28px;
+      gap: 26px;
     }
 
     nav a {
       color: var(--text-muted);
       text-decoration: none;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       font-weight: 500;
       transition: color 0.2s;
     }
@@ -128,11 +129,36 @@
       color: var(--accent);
     }
 
-    .nav-whatsapp {
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--card-border);
+      display: grid;
+      place-items: center;
+      color: var(--text);
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .btn-icon:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .nav-wa-btn {
       background: rgba(37, 211, 102, 0.15);
       border: 1px solid rgba(37, 211, 102, 0.4);
       color: var(--whatsapp);
-      padding: 8px 18px;
+      padding: 8px 16px;
       border-radius: 30px;
       font-size: 0.85rem;
       font-weight: 600;
@@ -143,26 +169,25 @@
       transition: all 0.3s;
     }
 
-    .nav-whatsapp:hover {
+    .nav-wa-btn:hover {
       background: var(--whatsapp);
       color: #fff;
-      box-shadow: 0 0 20px rgba(37, 211, 102, 0.6);
+      box-shadow: 0 0 20px rgba(37, 211, 102, 0.5);
       transform: translateY(-2px);
     }
 
     /* Hero Section */
     .hero {
-      min-height: 88vh;
+      min-height: 85vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       text-align: center;
-      padding: 40px 0 60px;
-      position: relative;
+      padding: 60px 0 40px;
     }
 
-    .status-badge {
+    .hero-pill {
       display: inline-flex;
       align-items: center;
       gap: 8px;
@@ -172,22 +197,22 @@
       border-radius: 30px;
       color: var(--accent);
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       margin-bottom: 24px;
       backdrop-filter: blur(10px);
     }
 
-    .status-ping {
+    .hero-dot {
       width: 8px;
       height: 8px;
-      background: var(--accent);
+      background: var(--whatsapp);
       border-radius: 50%;
-      box-shadow: 0 0 10px var(--accent);
+      box-shadow: 0 0 10px var(--whatsapp);
       animation: pulse 2s infinite;
     }
 
     .hero-title {
-      font-size: clamp(2.8rem, 7vw, 5rem);
+      font-size: clamp(2.8rem, 6.5vw, 4.8rem);
       font-weight: 800;
       letter-spacing: -0.04em;
       line-height: 1.1;
@@ -197,38 +222,38 @@
       -webkit-text-fill-color: transparent;
     }
 
-    .hero-sub {
-      font-size: 1.2rem;
+    .hero-subtitle {
+      font-size: 1.15rem;
       color: var(--text-muted);
-      max-width: 650px;
+      max-width: 660px;
       line-height: 1.6;
       margin-bottom: 35px;
     }
 
     .hero-btns {
       display: flex;
-      gap: 16px;
+      gap: 14px;
       flex-wrap: wrap;
       justify-content: center;
     }
 
     .btn {
-      padding: 13px 28px;
+      padding: 12px 26px;
       border-radius: 12px;
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       font-weight: 600;
       text-decoration: none;
       display: inline-flex;
       align-items: center;
-      gap: 10px;
+      gap: 9px;
       cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .btn-main {
       background: #ffffff;
       color: #030712;
-      box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+      box-shadow: 0 0 25px rgba(255, 255, 255, 0.2);
     }
 
     .btn-main:hover {
@@ -239,43 +264,42 @@
     .btn-wa {
       background: var(--whatsapp);
       color: #ffffff;
-      box-shadow: 0 0 25px rgba(37, 211, 102, 0.3);
+      box-shadow: 0 0 20px rgba(37, 211, 102, 0.3);
     }
 
     .btn-wa:hover {
       background: #20ba59;
       transform: translateY(-2px);
-      box-shadow: 0 0 35px rgba(37, 211, 102, 0.5);
+      box-shadow: 0 0 30px rgba(37, 211, 102, 0.5);
     }
 
-    .btn-glass {
-      background: rgba(255, 255, 255, 0.04);
+    .btn-li {
+      background: rgba(10, 102, 194, 0.2);
+      border: 1px solid rgba(10, 102, 194, 0.5);
+      color: #60a5fa;
+    }
+
+    .btn-li:hover {
+      background: var(--linkedin);
       color: #fff;
-      border: 1px solid var(--card-border);
-      backdrop-filter: blur(10px);
-    }
-
-    .btn-glass:hover {
-      background: rgba(255, 255, 255, 0.08);
-      border-color: rgba(255, 255, 255, 0.2);
       transform: translateY(-2px);
     }
 
     /* Stats Bar */
     .stats-bar {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 20px;
-      margin: 40px 0 80px;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 18px;
+      margin: 30px 0 80px;
     }
 
     .stat-card {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       border-radius: 16px;
-      padding: 24px;
+      padding: 22px;
       text-align: center;
-      backdrop-filter: blur(12px);
+      backdrop-filter: blur(14px);
       transition: transform 0.3s;
     }
 
@@ -285,20 +309,21 @@
     }
 
     .stat-num {
-      font-size: 2.4rem;
+      font-size: 2.3rem;
       font-weight: 800;
       color: #fff;
       letter-spacing: -0.03em;
     }
 
     .stat-label {
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       color: var(--text-muted);
       text-transform: uppercase;
       letter-spacing: 0.05em;
+      margin-top: 4px;
     }
 
-    /* Section Global */
+    /* Section Styling */
     section {
       padding: 60px 0 90px;
     }
@@ -309,146 +334,280 @@
       color: var(--accent);
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
 
     .section-head {
       font-size: 2.2rem;
       font-weight: 800;
       letter-spacing: -0.03em;
-      margin-bottom: 40px;
       color: #fff;
+      margin-bottom: 12px;
     }
 
-    /* 3D Tilt Cards */
-    .grid-bento {
+    .section-sub {
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      max-width: 600px;
+    }
+
+    /* Filter Tabs for Projects */
+    .filter-tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      padding: 8px 18px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--card-border);
+      color: var(--text-muted);
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .filter-btn:hover, .filter-btn.active {
+      background: var(--accent);
+      color: #030712;
+      border-color: var(--accent);
+      box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+    }
+
+    /* Projects Grid */
+    .projects-grid {
       display: grid;
-      grid-template-columns: repeat(12, 1fr);
-      gap: 20px;
-      perspective: 1200px;
+      grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+      gap: 24px;
     }
 
-    .card-3d {
+    .project-card {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       border-radius: 20px;
-      padding: 30px;
-      backdrop-filter: blur(16px);
-      transition: transform 0.15s ease-out, border-color 0.3s, box-shadow 0.3s;
-      transform-style: preserve-3d;
+      padding: 24px;
+      backdrop-filter: blur(14px);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
       position: relative;
     }
 
-    .card-3d:hover {
+    .project-card:hover {
       border-color: var(--card-hover);
-      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.7), 0 0 25px rgba(56, 189, 248, 0.15);
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7), 0 0 20px rgba(56, 189, 248, 0.15);
     }
 
-    .col-8 { grid-column: span 8; }
-    .col-4 { grid-column: span 4; }
-    .col-6 { grid-column: span 6; }
-    .col-12 { grid-column: span 12; }
+    .project-card.hide {
+      display: none;
+    }
 
-    /* Project Cards & Image */
-    .project-img-container {
+    .project-img-box {
       width: 100%;
-      height: 240px;
-      background: #0b1120;
-      border-radius: 14px;
+      height: 190px;
+      border-radius: 12px;
+      background: #0f172a;
       border: 1px solid var(--card-border);
       overflow: hidden;
-      margin: 20px 0 15px;
+      margin-bottom: 18px;
+      position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
-      position: relative;
     }
 
-    .project-img-container img {
+    .project-img-box img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: transform 0.5s ease;
+      transition: transform 0.4s;
     }
 
-    .card-3d:hover .project-img-container img {
-      transform: scale(1.04);
+    .project-card:hover .project-img-box img {
+      transform: scale(1.05);
     }
 
-    .project-img-placeholder {
+    .project-placeholder-text {
+      color: var(--text-muted);
+      font-size: 0.85rem;
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 8px;
-      color: var(--text-muted);
-      font-size: 0.9rem;
     }
 
-    .card-title {
-      font-size: 1.35rem;
+    .project-category {
+      font-size: 0.75rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .project-name {
+      font-size: 1.25rem;
       font-weight: 700;
       color: #fff;
       margin-bottom: 8px;
     }
 
-    .card-desc {
+    .project-desc {
+      font-size: 0.88rem;
       color: var(--text-muted);
-      font-size: 0.92rem;
       line-height: 1.6;
+      margin-bottom: 18px;
+      flex-grow: 1;
     }
 
-    /* Skills Badges */
-    .pills {
+    .project-tags {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 15px;
+      gap: 6px;
+      margin-bottom: 20px;
     }
 
-    .pill-tag {
+    .tag-badge {
+      font-size: 0.75rem;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.8rem;
-      padding: 6px 14px;
-      border-radius: 20px;
-      background: rgba(255, 255, 255, 0.03);
+      padding: 4px 10px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.04);
       border: 1px solid var(--card-border);
       color: #cbd5e1;
     }
 
-    /* Profile Card Inside Bento */
-    .profile-box {
+    .project-links {
+      display: flex;
+      gap: 12px;
+      border-top: 1px solid var(--card-border);
+      padding-top: 15px;
+    }
+
+    .project-links a {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #fff;
+      text-decoration: none;
       display: flex;
       align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
+    }
+
+    .project-links a:hover {
+      color: var(--accent);
+    }
+
+    /* Skills Grid */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 20px;
-      margin-bottom: 20px;
     }
 
-    .avatar-circle {
-      width: 80px;
-      height: 80px;
+    .skill-block {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 18px;
+      padding: 24px;
+      backdrop-filter: blur(14px);
+    }
+
+    .skill-block-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .skill-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .skill-pill {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      padding: 6px 12px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--card-border);
+      color: #e2e8f0;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Timeline Section */
+    .timeline {
+      position: relative;
+      border-left: 2px solid rgba(255, 255, 255, 0.1);
+      padding-left: 30px;
+      margin-left: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 35px;
+    }
+
+    .timeline-item {
+      position: relative;
+    }
+
+    .timeline-dot {
+      position: absolute;
+      left: -37px;
+      top: 5px;
+      width: 12px;
+      height: 12px;
       border-radius: 50%;
-      border: 2px solid var(--accent);
-      box-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
-      overflow: hidden;
-      background: #0f172a;
+      background: var(--accent);
+      box-shadow: 0 0 10px var(--accent);
     }
 
-    .avatar-circle img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+    .timeline-date {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--accent);
+      margin-bottom: 6px;
     }
 
-    /* Contact Card */
-    .contact-card-inner {
+    .timeline-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+
+    .timeline-sub {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    /* Contact Banner */
+    .contact-banner {
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(30, 41, 59, 0.8));
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 45px;
+      backdrop-filter: blur(20px);
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 24px;
+      gap: 25px;
     }
 
-    /* Floating WhatsApp Corner Widget */
+    /* Floating WhatsApp Button */
     .whatsapp-float {
       position: fixed;
       bottom: 25px;
@@ -459,7 +618,7 @@
       padding: 14px 22px;
       border-radius: 40px;
       font-weight: 700;
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       text-decoration: none;
       display: flex;
       align-items: center;
@@ -472,12 +631,11 @@
     .whatsapp-float:hover {
       background: #20ba59;
       transform: scale(1.05) translateY(-3px);
-      box-shadow: 0 15px 40px rgba(37, 211, 102, 0.7);
     }
 
     @keyframes pulse {
       0%, 100% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.2); opacity: 0.5; }
+      50% { transform: scale(1.25); opacity: 0.6; }
     }
 
     @keyframes floatWidget {
@@ -497,11 +655,11 @@
       gap: 15px;
     }
 
-    @media (max-width: 900px) {
-      .col-8, .col-4, .col-6 { grid-column: span 12; }
+    @media (max-width: 850px) {
       nav { display: none; }
       .whatsapp-float span { display: none; }
-      .whatsapp-float { padding: 16px; border-radius: 50%; }
+      .whatsapp-float { padding: 15px; border-radius: 50%; }
+      .contact-banner { padding: 30px 20px; }
     }
   </style>
 </head>
@@ -510,267 +668,383 @@
   <!-- Three.js 3D Background Canvas -->
   <canvas id="three-canvas"></canvas>
 
-  <!-- Floating Sticky WhatsApp Action -->
-  <a href="https://wa.me/923294751844" target="_blank" class="whatsapp-float">
+  <!-- Sticky Bottom-Right WhatsApp Bubble -->
+  <a href="https://wa.me/923294751844?text=Hi%20Zain,%20I%20saw%20your%20portfolio%20and%20want%20to%20discuss%20a%20project" target="_blank" class="whatsapp-float">
     <i class="fa-brands fa-whatsapp" style="font-size: 1.4rem;"></i>
-    <span>Chat on WhatsApp</span>
+    <span>Message on WhatsApp</span>
   </a>
 
   <div class="content-wrapper">
-    <!-- Navbar -->
+    <!-- Header -->
     <header>
       <div class="nav-box">
         <a href="#" class="logo">
-          <div class="logo-cube">Z</div>
+          <div class="logo-badge">Z</div>
           <span>Zain Muneer</span>
         </a>
         <nav>
           <a href="#about">About</a>
-          <a href="#projects">3D Works</a>
+          <a href="#projects">Projects</a>
           <a href="#skills">Skills</a>
+          <a href="#experience">Experience</a>
           <a href="#contact">Contact</a>
         </nav>
-        <a href="tel:+923294751844" class="nav-whatsapp">
-          <i class="fa-solid fa-phone"></i> +92 329 4751844
-        </a>
+        <div class="nav-actions">
+          <a href="https://www.linkedin.com/in/itszainmunir/" target="_blank" class="btn-icon" title="LinkedIn Profile">
+            <i class="fa-brands fa-linkedin-in" style="color:#0a66c2;"></i>
+          </a>
+          <a href="https://github.com/ZainMuneer" target="_blank" class="btn-icon" title="GitHub Profile">
+            <i class="fa-brands fa-github"></i>
+          </a>
+          <a href="https://wa.me/923294751844" target="_blank" class="nav-wa-btn">
+            <i class="fa-brands fa-whatsapp"></i> Chat
+          </a>
+        </div>
       </div>
     </header>
 
     <main class="container">
       <!-- Hero Section -->
       <section class="hero" id="about">
-        <div class="status-badge">
-          <span class="status-ping"></span>
-          INTERACTIVE 3D WEB DEVELOPER
+        <div class="hero-pill">
+          <span class="hero-dot"></span>
+          AVAILABLE FOR FREELANCE & FULL-TIME ROLES
         </div>
         
         <h1 class="hero-title">
-          Crafting Next-Gen 3D &<br>Modern Web Experiences.
+          Crafting Modern Web Apps<br>with Speed & Precision.
         </h1>
         
-        <p class="hero-sub">
-          Hi, I'm Zain Muneer. I engineer ultra-responsive, highly animated web solutions that bridge creative design with cutting-edge 3D interactive performance.
+        <p class="hero-subtitle">
+          Hi, I'm Zain Muneer — Web Developer specializing in building responsive, high-performance web applications, dynamic user interfaces, and scalable frontend architecture.
         </p>
 
         <div class="hero-btns">
           <a href="https://wa.me/923294751844" target="_blank" class="btn btn-wa">
             <i class="fa-brands fa-whatsapp" style="font-size: 1.2rem;"></i> WhatsApp: +92 329 4751844
           </a>
-          <a href="#projects" class="btn btn-main">
-            Explore 3D Projects <i class="fa-solid fa-arrow-down"></i>
+          <a href="https://www.linkedin.com/in/itszainmunir/" target="_blank" class="btn btn-li">
+            <i class="fa-brands fa-linkedin"></i> Connect on LinkedIn
           </a>
-          <a href="https://github.com/ZainMuneer" target="_blank" class="btn btn-glass">
-            <i class="fa-brands fa-github"></i> GitHub
+          <a href="#projects" class="btn btn-main">
+            View Projects <i class="fa-solid fa-arrow-down"></i>
           </a>
         </div>
       </section>
 
-      <!-- Stats -->
+      <!-- Stats Bar -->
       <div class="stats-bar">
         <div class="stat-card">
           <div class="stat-num">100%</div>
-          <div class="stat-label">Responsive & Mobile First</div>
+          <div class="stat-label">Responsive Web Design</div>
         </div>
         <div class="stat-card">
-          <div class="stat-num">3D Web</div>
-          <div class="stat-label">Three.js & Canvas Engaged</div>
+          <div class="stat-num">Fast UI</div>
+          <div class="stat-label">Modern Frontend Stack</div>
         </div>
         <div class="stat-card">
-          <div class="stat-num">&lt; 1s</div>
-          <div class="stat-label">Ultra Fast Load Time</div>
+          <div class="stat-num">Clean Code</div>
+          <div class="stat-label">Scalable Architecture</div>
         </div>
         <div class="stat-card">
-          <div class="stat-num">24/7</div>
-          <div class="stat-label">Direct Client Communication</div>
+          <div class="stat-num">Direct Contact</div>
+          <div class="stat-label">+92 329 4751844</div>
         </div>
       </div>
 
-      <!-- Bento 3D Showcase -->
+      <!-- Projects Section with Filter Tabs -->
       <section id="projects">
-        <div class="section-tag">// PRODUCTION BUILDS</div>
-        <h2 class="section-head">Featured Web Creations</h2>
+        <div class="section-tag">// SHOWCASE</div>
+        <h2 class="section-head">Featured Web Projects</h2>
+        <p class="section-sub">A curated selection of web applications and digital experiences built for performance and seamless UX.</p>
 
-        <div class="grid-bento">
-          <!-- Card 1: 3D Featured Project (8 cols) -->
-          <div class="card-3d col-8">
-            <span class="pill-tag" style="color:var(--accent);">FEATURED APP</span>
-            <h3 class="card-title" style="margin-top: 10px;">Modern 3D Interactive Web App</h3>
-            <p class="card-desc">
-              High-performance interactive web portal built with dynamic Three.js rendering, fluid micro-animations, and full-stack API integration.
+        <!-- Category Filters -->
+        <div class="filter-tabs">
+          <button class="filter-btn active" onclick="filterProjects('all', this)">All Projects</button>
+          <button class="filter-btn" onclick="filterProjects('frontend', this)">Frontend</button>
+          <button class="filter-btn" onclick="filterProjects('fullstack', this)">Full Stack</button>
+          <button class="filter-btn" onclick="filterProjects('ecommerce', this)">E-Commerce</button>
+        </div>
+
+        <div class="projects-grid">
+          <!-- Project 1: E-Commerce Store -->
+          <div class="project-card" data-cat="ecommerce fullstack">
+            <div class="project-img-box">
+              <!-- Screenshot upload karein: <img src="project1.png" alt="E-Commerce"> -->
+              <div class="project-placeholder-text">
+                <i class="fa-solid fa-bag-shopping" style="font-size: 2.2rem; color: var(--accent);"></i>
+                <span>E-Commerce Storefront</span>
+              </div>
+            </div>
+            <div class="project-category">E-Commerce & Full Stack</div>
+            <h3 class="project-name">Modern E-Commerce Store</h3>
+            <p class="project-desc">
+              Feature-packed storefront featuring product filtering, reactive shopping cart, secure checkout, and mobile-first responsive layout.
             </p>
-            
-            <!-- Project Image Container (Replace placeholder with your image) -->
-            <div class="project-img-container">
-              <div class="project-img-placeholder">
-                <i class="fa-solid fa-cube" style="font-size: 2.5rem; color: var(--accent);"></i>
-                <span>Upload your project screenshot here (project1.png)</span>
-              </div>
+            <div class="project-tags">
+              <span class="tag-badge">React.js</span>
+              <span class="tag-badge">JavaScript</span>
+              <span class="tag-badge">Tailwind CSS</span>
+              <span class="tag-badge">API Integration</span>
             </div>
-
-            <div class="pills">
-              <span class="pill-tag">Three.js</span>
-              <span class="pill-tag">JavaScript ES6+</span>
-              <span class="pill-tag">WebGL</span>
-              <span class="pill-tag">Tailwind</span>
+            <div class="project-links">
+              <a href="https://github.com/ZainMuneer" target="_blank"><i class="fa-brands fa-github"></i> Code</a>
+              <a href="https://wa.me/923294751844?text=I%20want%20to%20see%20your%20Ecommerce%20Project" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i> Request Demo</a>
             </div>
           </div>
 
-          <!-- Card 2: Profile / Persona (4 cols) -->
-          <div class="card-3d col-4">
-            <span class="pill-tag" style="color:var(--accent-purple);">ARCHITECT</span>
-            
-            <div class="profile-box" style="margin-top: 18px;">
-              <div class="avatar-circle">
-                <!-- Apni tasweer lagane ke liye: src="profile.jpg" -->
-                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=250&q=80" alt="Zain Muneer">
-              </div>
-              <div>
-                <h4 style="color:#fff; font-size:1.15rem; font-weight:700;">Zain Muneer</h4>
-                <p style="color:var(--accent); font-size:0.85rem;">Web Developer</p>
+          <!-- Project 2: SaaS Analytics Dashboard -->
+          <div class="project-card" data-cat="frontend">
+            <div class="project-img-box">
+              <div class="project-placeholder-text">
+                <i class="fa-solid fa-chart-line" style="font-size: 2.2rem; color: var(--accent-purple);"></i>
+                <span>SaaS Dashboard UI</span>
               </div>
             </div>
-
-            <p class="card-desc">
-              Passionate about turning imaginative ideas into real, interactive, high-converting digital products.
+            <div class="project-category">Frontend & UI/UX</div>
+            <h3 class="project-name">SaaS Analytics & Admin Dashboard</h3>
+            <p class="project-desc">
+              Clean, dark-mode analytical web application equipped with interactive data charts, real-time metrics, user tables, and responsive drawer navigation.
             </p>
-
-            <div style="margin-top: 25px; padding-top: 15px; border-top: 1px solid var(--card-border);">
-              <div style="font-size: 0.8rem; color: var(--text-muted);">DIRECT PHONE</div>
-              <a href="tel:+923294751844" style="color: #fff; font-weight:700; text-decoration:none; font-size:1rem;">
-                +92 329 4751844
-              </a>
+            <div class="project-tags">
+              <span class="tag-badge">HTML5/CSS3</span>
+              <span class="tag-badge">JavaScript ES6+</span>
+              <span class="tag-badge">Chart.js</span>
+              <span class="tag-badge">CSS Grid</span>
+            </div>
+            <div class="project-links">
+              <a href="https://github.com/ZainMuneer" target="_blank"><i class="fa-brands fa-github"></i> Code</a>
+              <a href="https://wa.me/923294751844?text=I%20want%20to%20see%20your%20Dashboard%20Project" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i> Request Demo</a>
             </div>
           </div>
 
-          <!-- Card 3: Skills (6 cols) -->
-          <div class="card-3d col-6" id="skills">
-            <span class="pill-tag" style="color:var(--accent);">TECH STACK</span>
-            <h3 class="card-title" style="margin-top: 10px;">Engineering Capabilities</h3>
-            <p class="card-desc">Core competencies applied to build scalable, beautiful digital systems:</p>
-            
-            <div class="pills" style="margin-top: 20px;">
-              <span class="pill-tag"><i class="fa-brands fa-html5" style="color:#e34f26;"></i> HTML5 Semantics</span>
-              <span class="pill-tag"><i class="fa-brands fa-css3-alt" style="color:#1572b6;"></i> CSS3 & Animations</span>
-              <span class="pill-tag"><i class="fa-brands fa-js" style="color:#f7df1e;"></i> JavaScript ES6+</span>
-              <span class="pill-tag"><i class="fa-brands fa-react" style="color:#61dafb;"></i> React.js</span>
-              <span class="pill-tag"><i class="fa-solid fa-cubes" style="color:var(--accent);"></i> Three.js / WebGL</span>
-              <span class="pill-tag"><i class="fa-brands fa-node-js" style="color:#68a063;"></i> Node.js & APIs</span>
-              <span class="pill-tag"><i class="fa-brands fa-git-alt" style="color:#f05032;"></i> Git & GitHub</span>
+          <!-- Project 3: Client Agency / Business Web Platform -->
+          <div class="project-card" data-cat="frontend">
+            <div class="project-img-box">
+              <div class="project-placeholder-text">
+                <i class="fa-solid fa-laptop-code" style="font-size: 2.2rem; color: var(--accent);"></i>
+                <span>Corporate Web Platform</span>
+              </div>
+            </div>
+            <div class="project-category">Business & Agency Web</div>
+            <h3 class="project-name">High-Converting Agency Website</h3>
+            <p class="project-desc">
+              Custom corporate website built with smooth scroll interactions, optimized load speeds, SEO semantics, and integrated lead capture forms.
+            </p>
+            <div class="project-tags">
+              <span class="tag-badge">Responsive Web</span>
+              <span class="tag-badge">SEO Optimized</span>
+              <span class="tag-badge">Modern UI</span>
+            </div>
+            <div class="project-links">
+              <a href="https://github.com/ZainMuneer" target="_blank"><i class="fa-brands fa-github"></i> Code</a>
+              <a href="https://wa.me/923294751844?text=I%20want%20to%20see%20your%20Agency%20Project" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i> Request Demo</a>
             </div>
           </div>
 
-          <!-- Card 4: Second Project (6 cols) -->
-          <div class="card-3d col-6">
-            <span class="pill-tag" style="color:var(--whatsapp);">CLIENT WORK</span>
-            <h3 class="card-title" style="margin-top: 10px;">Dynamic E-Commerce & Web Platform</h3>
-            <p class="card-desc">Modern e-store with lightning-fast cart performance, interactive product galleries, and mobile payments.</p>
-            
-            <div class="project-img-container" style="height: 140px;">
-              <div class="project-img-placeholder">
-                <i class="fa-solid fa-cart-shopping" style="font-size: 1.8rem; color: var(--whatsapp);"></i>
-                <span>Storefront Demo Placeholder</span>
+          <!-- Project 4: Full-Stack Task / Collaboration Portal -->
+          <div class="project-card" data-cat="fullstack">
+            <div class="project-img-box">
+              <div class="project-placeholder-text">
+                <i class="fa-solid fa-layer-group" style="font-size: 2.2rem; color: var(--whatsapp);"></i>
+                <span>Task & Workflow Portal</span>
               </div>
             </div>
+            <div class="project-category">Full Stack Solution</div>
+            <h3 class="project-name">Task & Workflow Management Web App</h3>
+            <p class="project-desc">
+              Productivity application facilitating project tracking, dynamic Kanban board drag-and-drop, persistent backend state, and auth validation.
+            </p>
+            <div class="project-tags">
+              <span class="tag-badge">Node.js</span>
+              <span class="tag-badge">REST API</span>
+              <span class="tag-badge">JavaScript</span>
+              <span class="tag-badge">Database</span>
+            </div>
+            <div class="project-links">
+              <a href="https://github.com/ZainMuneer" target="_blank"><i class="fa-brands fa-github"></i> Code</a>
+              <a href="https://wa.me/923294751844?text=I%20want%20to%20see%20your%20Task%20Portal" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i> Request Demo</a>
+            </div>
+          </div>
+        </div>
+      </section>
 
-            <div class="pills">
-              <span class="pill-tag">React</span>
-              <span class="pill-tag">Rest API</span>
-              <span class="pill-tag">Stripe</span>
+      <!-- Skills Matrix -->
+      <section id="skills">
+        <div class="section-tag">// TECH ARSENAL</div>
+        <h2 class="section-head">Skills & Technologies</h2>
+        <p class="section-sub">Tools, frameworks, and methodologies I leverage daily to engineer reliable software.</p>
+
+        <div class="skills-grid">
+          <div class="skill-block">
+            <div class="skill-block-title">
+              <i class="fa-brands fa-html5" style="color:#e34f26;"></i> Frontend Core
+            </div>
+            <div class="skill-badges">
+              <span class="skill-pill">HTML5</span>
+              <span class="skill-pill">CSS3 / SASS</span>
+              <span class="skill-pill">JavaScript (ES6+)</span>
+              <span class="skill-pill">React.js</span>
+              <span class="skill-pill">Tailwind CSS</span>
+              <span class="skill-pill">Bootstrap</span>
             </div>
           </div>
 
-          <!-- Card 5: Full Width Direct Call/WhatsApp (12 cols) -->
-          <div class="card-3d col-12" id="contact">
-            <div class="contact-card-inner">
-              <div>
-                <span class="pill-tag" style="color:var(--whatsapp);">CONNECT</span>
-                <h3 class="card-title" style="font-size: 1.8rem; margin: 10px 0 6px;">Ready to start your next big project?</h3>
-                <p class="card-desc">Call or message me directly on WhatsApp. I am available for immediate hire.</p>
-              </div>
-              <div style="display:flex; gap: 12px; flex-wrap: wrap;">
-                <a href="https://wa.me/923294751844" target="_blank" class="btn btn-wa" style="font-size: 1.05rem; padding: 14px 28px;">
-                  <i class="fa-brands fa-whatsapp" style="font-size: 1.4rem;"></i> Chat: +92 329 4751844
-                </a>
-                <a href="tel:+923294751844" class="btn btn-glass" style="font-size: 1.05rem; padding: 14px 24px;">
-                  <i class="fa-solid fa-phone"></i> Call Direct
-                </a>
-              </div>
+          <div class="skill-block">
+            <div class="skill-block-title">
+              <i class="fa-brands fa-node-js" style="color:#68a063;"></i> Backend & APIs
             </div>
+            <div class="skill-badges">
+              <span class="skill-pill">Node.js</span>
+              <span class="skill-pill">Express</span>
+              <span class="skill-pill">RESTful APIs</span>
+              <span class="skill-pill">JSON Integration</span>
+              <span class="skill-pill">Authentication</span>
+            </div>
+          </div>
+
+          <div class="skill-block">
+            <div class="skill-block-title">
+              <i class="fa-solid fa-cubes" style="color:var(--accent);"></i> Motion & Interactive
+            </div>
+            <div class="skill-badges">
+              <span class="skill-pill">Three.js 3D</span>
+              <span class="skill-pill">WebGL Canvas</span>
+              <span class="skill-pill">CSS Micro-Animations</span>
+              <span class="skill-pill">Responsive Design</span>
+            </div>
+          </div>
+
+          <div class="skill-block">
+            <div class="skill-block-title">
+              <i class="fa-solid fa-toolbox" style="color:var(--accent-purple);"></i> Tools & Workflow
+            </div>
+            <div class="skill-badges">
+              <span class="skill-pill">Git & GitHub</span>
+              <span class="skill-pill">VS Code</span>
+              <span class="skill-pill">Postman</span>
+              <span class="skill-pill">Figma to Code</span>
+              <span class="skill-pill">Chrome DevTools</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Experience & Education Timeline -->
+      <section id="experience">
+        <div class="section-tag">// JOURNEY</div>
+        <h2 class="section-head">Experience & Trajectory</h2>
+        <p class="section-sub">A track record of continuous learning, client delivery, and technical growth.</p>
+
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-date">2024 — PRESENT</div>
+            <h3 class="timeline-title">Independent Web Developer & Freelancer</h3>
+            <div class="timeline-sub">Global & Local Clients // Remote</div>
+            <p style="color:var(--text-muted); font-size:0.9rem;">
+              Building responsive frontend interfaces, custom business websites, API integrations, and maintaining modern codebases for diverse web projects.
+            </p>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-date">PRACTICAL TRAINING & PROJECTS</div>
+            <h3 class="timeline-title">Full Stack Web Engineering</h3>
+            <div class="timeline-sub">Continuous Professional Mastery</div>
+            <p style="color:var(--text-muted); font-size:0.9rem;">
+              Designed and deployed practical production web applications, mastering DOM manipulation, modular JavaScript, responsive styling, and web performance optimization.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact Banner -->
+      <section id="contact" style="padding-top: 20px;">
+        <div class="contact-banner">
+          <div>
+            <div class="section-tag" style="color:var(--whatsapp);">// DIRECT COMMUNICATION</div>
+            <h2 style="font-size:2rem; font-weight:800; color:#fff; margin-bottom:8px;">Let's Build Something Exceptional</h2>
+            <p style="color:var(--text-muted); max-width: 500px;">
+              Ready to bring your project to life or looking for a skilled developer to join your team? Reach out directly via WhatsApp or LinkedIn.
+            </p>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:12px;">
+            <a href="https://wa.me/923294751844" target="_blank" class="btn btn-wa" style="font-size:1rem; padding:14px 26px;">
+              <i class="fa-brands fa-whatsapp" style="font-size:1.3rem;"></i> WhatsApp: +92 329 4751844
+            </a>
+            <a href="https://www.linkedin.com/in/itszainmunir/" target="_blank" class="btn btn-li" style="font-size:1rem; padding:14px 26px;">
+              <i class="fa-brands fa-linkedin" style="font-size:1.3rem;"></i> Connect: itszainmunir
+            </a>
+            <a href="tel:+923294751844" class="btn btn-main" style="justify-content:center;">
+              <i class="fa-solid fa-phone"></i> Call: +92 329 4751844
+            </a>
           </div>
         </div>
       </section>
 
       <!-- Footer -->
       <footer>
-        <div>© 2026 Zain Muneer // 3D Interactive Web Developer</div>
-        <div>Direct Contact: <a href="https://wa.me/923294751844" style="color:var(--whatsapp); text-decoration:none;">+92 329 4751844</a></div>
+        <div>© 2026 Zain Muneer // Web Developer</div>
+        <div>WhatsApp / Call: <a href="https://wa.me/923294751844" style="color:var(--whatsapp); text-decoration:none;">+92 329 4751844</a></div>
+        <div>LinkedIn: <a href="https://www.linkedin.com/in/itszainmunir/" target="_blank" style="color:var(--accent); text-decoration:none;">in/itszainmunir</a></div>
       </footer>
     </main>
   </div>
 
-  <!-- Real Three.js 3D Background Engine & Tilt Physics -->
+  <!-- Interactive Three.js 3D Engine & Filter Logic -->
   <script>
-    // --- 1. Three.js 3D Floating Geometry Scene ---
+    // --- 1. Three.js Interactive 3D Background Mesh ---
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('three-canvas'), alpha: true, antialias: true });
-    
+
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-    // 3D Geometric Floating Torus Knot
-    const geometry = new THREE.TorusKnotGeometry(1.8, 0.45, 120, 16);
+    // Floating 3D Geometric Ring Mesh
+    const geometry = new THREE.TorusKnotGeometry(1.7, 0.45, 130, 16);
     const material = new THREE.MeshStandardMaterial({
       color: 0x38bdf8,
       wireframe: true,
-      metalness: 0.8,
-      roughness: 0.2,
-      emissive: 0x0f172a
+      metalness: 0.85,
+      roughness: 0.2
     });
     const torusKnot = new THREE.Mesh(geometry, material);
     scene.add(torusKnot);
 
-    // Floating Particles Starfield
+    // Particle Stars
     const particlesGeo = new THREE.BufferGeometry();
-    const particlesCount = 700;
-    const posArray = new Float32Array(particlesCount * 3);
-    for (let i = 0; i < particlesCount * 3; i++) {
-      posArray[i] = (Math.random() - 0.5) * 20;
+    const count = 650;
+    const pos = new Float32Array(count * 3);
+    for (let i = 0; i < count * 3; i++) {
+      pos[i] = (Math.random() - 0.5) * 22;
     }
-    particlesGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-    const particlesMat = new THREE.PointsMaterial({
-      size: 0.03,
-      color: 0x38bdf8,
-      transparent: true,
-      opacity: 0.6
-    });
-    const particlesMesh = new THREE.Points(particlesGeo, particlesMat);
-    scene.add(particlesMesh);
+    particlesGeo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+    const particlesMat = new THREE.PointsMaterial({ size: 0.03, color: 0x38bdf8, transparent: true, opacity: 0.5 });
+    const starfield = new THREE.Points(particlesGeo, particlesMat);
+    scene.add(starfield);
 
-    // Ambient & Point Lighting
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
-    scene.add(ambientLight);
+    // Dynamic Lights
+    const ambLight = new THREE.AmbientLight(0xffffff, 0.6);
+    scene.add(ambLight);
 
-    const pointLight = new THREE.PointLight(0xa855f7, 2, 50);
-    pointLight.position.set(5, 5, 5);
-    scene.add(pointLight);
+    const light1 = new THREE.PointLight(0xa855f7, 2, 40);
+    light1.position.set(5, 5, 5);
+    scene.add(light1);
 
-    const pointLight2 = new THREE.PointLight(0x38bdf8, 2, 50);
-    pointLight2.position.set(-5, -5, 5);
-    scene.add(pointLight2);
+    const light2 = new THREE.PointLight(0x38bdf8, 2, 40);
+    light2.position.set(-5, -5, 5);
+    scene.add(light2);
 
     camera.position.z = 5;
 
-    // Mouse Interaction for 3D
     let mouseX = 0, mouseY = 0;
-    let targetX = 0, targetY = 0;
-
     window.addEventListener('mousemove', (e) => {
       mouseX = (e.clientX / window.innerWidth) * 2 - 1;
       mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
     });
 
-    // Touch support for mobile 3D
     window.addEventListener('touchmove', (e) => {
       if (e.touches.length > 0) {
         mouseX = (e.touches[0].clientX / window.innerWidth) * 2 - 1;
@@ -784,42 +1058,32 @@
       renderer.setSize(window.innerWidth, window.innerHeight);
     });
 
-    // Animation Loop
-    function animate() {
-      requestAnimationFrame(animate);
-
-      targetX = mouseX * 0.6;
-      targetY = mouseY * 0.6;
-
+    function renderLoop() {
+      requestAnimationFrame(renderLoop);
       torusKnot.rotation.x += 0.005;
-      torusKnot.rotation.y += 0.006;
-      torusKnot.rotation.x += (targetY - torusKnot.rotation.x) * 0.05;
-      torusKnot.rotation.y += (targetX - torusKnot.rotation.y) * 0.05;
-
-      particlesMesh.rotation.y = -mouseX * 0.1;
-      particlesMesh.rotation.x = mouseY * 0.1;
-
+      torusKnot.rotation.y += 0.007;
+      torusKnot.rotation.x += (mouseY * 0.5 - torusKnot.rotation.x) * 0.04;
+      torusKnot.rotation.y += (mouseX * 0.5 - torusKnot.rotation.y) * 0.04;
+      starfield.rotation.y = -mouseX * 0.08;
       renderer.render(scene, camera);
     }
-    animate();
+    renderLoop();
 
-    // --- 2. 3D Card Tilt Physics ---
-    document.querySelectorAll('.card-3d').forEach(card => {
-      card.addEventListener('mousemove', (e) => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-        const rotateX = ((y - centerY) / centerY) * -10;
-        const rotateY = ((x - centerX) / centerX) * 10;
-        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
-      });
+    // --- 2. Interactive Projects Filter System ---
+    function filterProjects(cat, btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
 
-      card.addEventListener('mouseleave', () => {
-        card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+      const cards = document.querySelectorAll('.project-card');
+      cards.forEach(card => {
+        const categories = card.getAttribute('data-cat') || '';
+        if (cat === 'all' || categories.includes(cat)) {
+          card.classList.remove('hide');
+        } else {
+          card.classList.add('hide');
+        }
       });
-    });
+    }
   </script>
 </body>
 </html>
