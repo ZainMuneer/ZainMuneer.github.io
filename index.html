@@ -321,8 +321,8 @@
 
     .speech-bubble {
       position: absolute;
-      top: 16px;
-      left: 12px;
+      bottom: 30px;
+      left: 118px;
       z-index: 2;
       background: #ffffff;
       color: #0f172a;
@@ -339,11 +339,12 @@
     .speech-bubble::after {
       content: '';
       position: absolute;
-      bottom: -8px;
-      right: 42px;
+      left: -8px;
+      top: 50%;
+      transform: translateY(-50%);
       border: 10px solid transparent;
-      border-top-color: #ffffff;
-      border-bottom: 0;
+      border-right-color: #ffffff;
+      border-left: 0;
     }
 
     @keyframes heroFloat {
@@ -366,7 +367,7 @@
       .hero-text { align-items: center; }
       .hero-text .hero-btns { justify-content: center; }
       .hero-visual { width: 100%; max-width: 520px; margin: 0 auto; }
-      .speech-bubble { font-size: 0.88rem; max-width: 225px; }
+      .speech-bubble { font-size: 0.88rem; max-width: 225px; left: 106px; bottom: 22px; }
       .hero-avatar-badge { width: 92px; height: 92px; left: 4px; bottom: -12px; }
     }
 
@@ -745,6 +746,74 @@
       display: flex;
       align-items: center;
       gap: 6px;
+    }
+
+    /* Skills Carousel */
+    #skills .skills-grid {
+      display: flex;
+      gap: 20px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding: 6px 2px 18px;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    #skills .skills-grid::-webkit-scrollbar {
+      display: none;
+    }
+
+    #skills .skill-block {
+      flex: 0 0 min(340px, 86%);
+      scroll-snap-align: start;
+    }
+
+    .carousel-nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+    }
+
+    .carousel-btn {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: rgba(45, 212, 191, 0.08);
+      border: 1px solid rgba(45, 212, 191, 0.35);
+      color: var(--accent);
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      transition: all 0.25s;
+    }
+
+    .carousel-btn:hover {
+      background: var(--accent);
+      color: #04070d;
+      box-shadow: 0 0 20px rgba(45, 212, 191, 0.4);
+    }
+
+    .carousel-dots {
+      display: flex;
+      gap: 8px;
+    }
+
+    .carousel-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.18);
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      transition: all 0.25s;
+    }
+
+    .carousel-dot.active {
+      background: var(--accent);
+      width: 26px;
+      border-radius: 6px;
     }
 
     /* Timeline Section */
@@ -1353,7 +1422,7 @@
             <div class="project-category">Blog · Food & Recipes</div>
             <h3 class="project-name">Devine Dishes — Kenyan & African Recipes</h3>
             <p class="project-desc">
-              Complete WordPress recipe blog sharing easy Kenyan and African recipes — organised recipe categories (breakfast, dinner, rice, snacks), popular-recipe sections and step-by-step posts.
+              Complete WordPress recipe blog sharing easy Kenyan and African recipes — organised recipe categories (breakfast, dinner, rice, snacks), popular-recipe sections and step-by-step posts, running since 2022 with custom plugin work per the client's requirements.
             </p>
             <div class="project-tags">
               <span class="tag-badge">WordPress</span>
@@ -1456,6 +1525,21 @@
             </div>
           </div>
         </div>
+
+        <div class="carousel-nav">
+          <button class="carousel-btn prev" aria-label="Previous skills">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="carousel-dots">
+            <button class="carousel-dot active" aria-label="Show skills group 1"></button>
+            <button class="carousel-dot" aria-label="Show skills group 2"></button>
+            <button class="carousel-dot" aria-label="Show skills group 3"></button>
+            <button class="carousel-dot" aria-label="Show skills group 4"></button>
+          </div>
+          <button class="carousel-btn next" aria-label="Next skills">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
       </section>
 
       <!-- Experience & Education Timeline -->
@@ -1467,7 +1551,7 @@
         <div class="timeline">
           <div class="timeline-item">
             <div class="timeline-dot"></div>
-            <div class="timeline-date">2025 — PRESENT</div>
+            <div class="timeline-date">2024 — PRESENT</div>
             <h3 class="timeline-title">Website Developer & Freelancer</h3>
             <div class="timeline-sub">International Clients // Remote — NL · NO · UAE · USA · China</div>
             <p style="color:var(--text-muted); font-size:0.9rem;">
@@ -1615,6 +1699,32 @@
         }
       });
     }
+  </script>
+
+  <!-- Skills Carousel Logic -->
+  <script>
+    (function () {
+      const track = document.querySelector('#skills .skills-grid');
+      if (!track) return;
+      const cards = track.children;
+      const dots = document.querySelectorAll('.carousel-dot');
+      const step = () => cards[0].offsetWidth + 20;
+      const index = () => Math.min(cards.length - 1, Math.round(track.scrollLeft / step()));
+      const goTo = (i) => track.scrollTo({ left: i * step(), behavior: 'smooth' });
+      const update = () => dots.forEach((d, i) => d.classList.toggle('active', i === index()));
+
+      let timer = setInterval(auto, 4000);
+      function auto() { goTo((index() + 1) % cards.length); }
+      function restart() { clearInterval(timer); timer = setInterval(auto, 4000); }
+
+      document.querySelector('.carousel-btn.prev').addEventListener('click', () => { goTo((index() - 1 + cards.length) % cards.length); restart(); });
+      document.querySelector('.carousel-btn.next').addEventListener('click', () => { goTo((index() + 1) % cards.length); restart(); });
+      dots.forEach((d, i) => d.addEventListener('click', () => { goTo(i); restart(); }));
+      track.addEventListener('scroll', () => window.requestAnimationFrame(update), { passive: true });
+      track.addEventListener('pointerenter', () => clearInterval(timer));
+      track.addEventListener('pointerleave', restart);
+      update();
+    })();
   </script>
 </body>
 </html>
