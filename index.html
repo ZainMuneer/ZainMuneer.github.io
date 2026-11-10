@@ -14,7 +14,7 @@
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Zain Muneer — WordPress Developer" />
   <meta name="twitter:description" content="Complete WordPress websites, WooCommerce stores and custom plugins — delivered for clients in 5 countries." />
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%2338bdf8'/%3E%3Ctext x='50' y='70' font-size='58' text-anchor='middle' fill='%23030712' font-family='Arial, sans-serif' font-weight='bold'%3EZ%3C/text%3E%3C/svg%3E" />
+  <link rel="icon" type="image/jpeg" href="images/logo.jpg" />
   
   <!-- Fonts & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -27,7 +27,7 @@
 
   <style>
     :root {
-      --bg: #030712;
+      --bg: #05030f;
       --card-bg: rgba(15, 23, 42, 0.65);
       --card-border: rgba(255, 255, 255, 0.08);
       --card-hover: rgba(56, 189, 248, 0.35);
@@ -47,7 +47,13 @@
     }
 
     body {
-      background-color: var(--bg);
+      background-color: #05030f;
+      background-image:
+        radial-gradient(1100px 560px at 10% -5%, rgba(168, 85, 247, 0.22), transparent 60%),
+        radial-gradient(900px 520px at 90% 6%, rgba(56, 189, 248, 0.15), transparent 60%),
+        radial-gradient(850px 620px at 50% 112%, rgba(124, 58, 237, 0.14), transparent 62%),
+        linear-gradient(180deg, #08031a 0%, #030712 55%, #05030f 100%);
+      background-attachment: fixed;
       color: var(--text);
       font-family: 'Plus Jakarta Sans', sans-serif;
       overflow-x: hidden;
@@ -123,6 +129,16 @@
       box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
     }
 
+    .logo-img {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: center 30%;
+      border: 2px solid rgba(168, 85, 247, 0.65);
+      box-shadow: 0 0 14px rgba(168, 85, 247, 0.45);
+    }
+
     nav {
       display: flex;
       gap: 26px;
@@ -190,12 +206,85 @@
     /* Hero Section */
     .hero {
       min-height: 85vh;
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      align-items: center;
+      gap: 46px;
+      text-align: left;
+      padding: 70px 0 50px;
+    }
+
+    .hero-text {
       display: flex;
       flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 60px 0 40px;
+      align-items: flex-start;
+    }
+
+    .hero-text .hero-btns {
+      justify-content: flex-start;
+    }
+
+    .hero-visual {
+      position: relative;
+    }
+
+    .hero-avatar {
+      width: 100%;
+      display: block;
+      border-radius: 26px;
+      border: 1px solid rgba(168, 85, 247, 0.35);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55), 0 0 45px rgba(124, 58, 237, 0.28);
+      animation: heroFloat 6s ease-in-out infinite;
+    }
+
+    .speech-bubble {
+      position: absolute;
+      top: 16px;
+      left: 12px;
+      z-index: 2;
+      background: #ffffff;
+      color: #0f172a;
+      font-weight: 700;
+      font-size: 0.95rem;
+      line-height: 1.35;
+      padding: 12px 18px;
+      border-radius: 18px;
+      max-width: 255px;
+      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.4);
+      animation: bubbleBob 3.4s ease-in-out infinite;
+    }
+
+    .speech-bubble::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      right: 42px;
+      border: 10px solid transparent;
+      border-top-color: #ffffff;
+      border-bottom: 0;
+    }
+
+    @keyframes heroFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @keyframes bubbleBob {
+      0%, 100% { transform: translateY(0) rotate(-2deg); }
+      50% { transform: translateY(-7px) rotate(-2deg); }
+    }
+
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 36px;
+        padding: 48px 0 40px;
+      }
+      .hero-text { align-items: center; }
+      .hero-text .hero-btns { justify-content: center; }
+      .hero-visual { width: 100%; max-width: 520px; margin: 0 auto; }
+      .speech-bubble { font-size: 0.88rem; max-width: 225px; }
     }
 
     .hero-pill {
@@ -223,7 +312,7 @@
     }
 
     .hero-title {
-      font-size: clamp(2.8rem, 6.5vw, 4.8rem);
+      font-size: clamp(2.4rem, 4.6vw, 3.9rem);
       font-weight: 800;
       letter-spacing: -0.04em;
       line-height: 1.1;
@@ -713,7 +802,7 @@
     <header>
       <div class="nav-box">
         <a href="#" class="logo">
-          <div class="logo-badge">Z</div>
+          <img src="images/logo.jpg" alt="Zain Muneer" class="logo-img">
           <span>Zain Muneer</span>
         </a>
         <nav>
@@ -744,6 +833,7 @@
     <main class="container">
       <!-- Hero Section -->
       <section class="hero" id="about">
+        <div class="hero-text">
         <div class="hero-pill">
           <span class="hero-dot"></span>
           AVAILABLE FOR FREELANCE & FULL-TIME ROLES
@@ -767,6 +857,11 @@
           <a href="#projects" class="btn btn-main">
             View Projects <i class="fa-solid fa-arrow-down"></i>
           </a>
+        </div>
+        </div>
+        <div class="hero-visual">
+          <div class="speech-bubble">👋 Hi! You're most welcome!</div>
+          <img src="images/avatar.jpg" alt="3D avatar of Zain Muneer working on his laptop" class="hero-avatar">
         </div>
       </section>
 
@@ -1157,7 +1252,7 @@
             <div class="project-category">Blog · Food & Recipes</div>
             <h3 class="project-name">Devine Dishes — Kenyan & African Recipes</h3>
             <p class="project-desc">
-              Complete WordPress recipe blog sharing easy Kenyan and African recipes — organised recipe categories (breakfast, dinner, rice, snacks), popular-recipe sections and step-by-step posts.
+              Complete WordPress recipe blog sharing easy Kenyan and African recipes — organised recipe categories (breakfast, dinner, rice, snacks), popular-recipe sections and step-by-step posts, running since 2022 with custom plugin work per the client's requirements.
             </p>
             <div class="project-tags">
               <span class="tag-badge">WordPress</span>
@@ -1271,7 +1366,7 @@
         <div class="timeline">
           <div class="timeline-item">
             <div class="timeline-dot"></div>
-            <div class="timeline-date">2025 — PRESENT</div>
+            <div class="timeline-date">2024 — PRESENT</div>
             <h3 class="timeline-title">Website Developer & Freelancer</h3>
             <div class="timeline-sub">International Clients // Remote — NL · NO · UAE · USA · China</div>
             <p style="color:var(--text-muted); font-size:0.9rem;">
@@ -1337,12 +1432,15 @@
     // Floating 3D Geometric Ring Mesh
     const geometry = new THREE.TorusKnotGeometry(1.7, 0.45, 130, 16);
     const material = new THREE.MeshStandardMaterial({
-      color: 0x38bdf8,
+      color: 0x8b5cf6,
       wireframe: true,
       metalness: 0.85,
-      roughness: 0.2
+      roughness: 0.2,
+      transparent: true,
+      opacity: 0.55
     });
     const torusKnot = new THREE.Mesh(geometry, material);
+    torusKnot.position.set(-2.4, 0.3, -1);
     scene.add(torusKnot);
 
     // Particle Stars
@@ -1353,7 +1451,7 @@
       pos[i] = (Math.random() - 0.5) * 22;
     }
     particlesGeo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-    const particlesMat = new THREE.PointsMaterial({ size: 0.03, color: 0x38bdf8, transparent: true, opacity: 0.5 });
+    const particlesMat = new THREE.PointsMaterial({ size: 0.03, color: 0xa855f7, transparent: true, opacity: 0.55 });
     const starfield = new THREE.Points(particlesGeo, particlesMat);
     scene.add(starfield);
 
